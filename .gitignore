@@ -1,0 +1,6 @@
+.env
+*.png
+*.html
+inbox_data.json
+node_modules
+debug.html
