@@ -1,111 +1,120 @@
 # ROS Inbox Scraper
 
-A Playwright-based automation script that logs into the Revenue Online Service (ROS) portal, reads new messages from the Revenue Record tab, captures screenshots, and sends the data via email or saves it locally.
+A script to automate login to ROS (Revenue Online Service), navigate to the inbox, and extract messages. Captured data is sent via email or saved locally depending on the configuration.
 
----
+## 🚀 Features
 
-## ⚙️ Features
+- Supports headless and non-headless (manual) modes
+- Automatically selects certificate and fills password if provided
+- Scrapes inbox message table from the 'Revenue Record' tab
+- Saves screenshots and debug HTML for troubleshooting
+- Sends inbox data via email or saves it to a local file
 
-- Supports headless and non-headless (visible browser) modes
-- Autofills password for ROS certificate
-- Allows user to upload/select certificate manually in interactive mode
-- Saves data as local file or sends it via email (Gmail)
-- Screenshots captured for debugging and inbox overview
+## 🛠️ Requirements
 
----
+- Node.js v18+
+- Google Chrome installed
+- Gmail account (for email functionality)
 
-## 🛠️ Installation
+## 📦 Installation
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/pchambeth/ros-inbox-scraper.git
-   cd ros-inbox-scraper
-   ```
+```bash
+git clone https://github.com/yourusername/ros-inbox-scraper.git
+cd ros-inbox-scraper
+npm install
+```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+## 📁 Environment Configuration
 
-3. Copy `.env.example` to `.env` and fill in the required environment variables:
-   ```bash
-   cp .env.example .env
-   ```
+Create a `.env` file based on the provided `.env.example`:
 
-4. Make sure you have Google Chrome installed.
+```bash
+cp .env.example .env
+```
 
----
+Update the values in `.env`:
 
-## 📦 Environment Variables
-
-Create a `.env` file with the following:
 ```env
 EMAIL_TO=recipient@example.com
-EMAIL_FROM=yourgmail@example.com
+EMAIL_FROM=youremail@gmail.com
 EMAIL_PASS=your_gmail_app_password
-ROS_CERT_NAME=Capisso
+ROS_CERT_NAME=your_cert_name
 ROS_CERT_PASSWORD=your_cert_password
 ```
 
----
+## 🧪 Usage
 
-## 🚀 First-Time Setup
+Run the script:
 
-Before you can run this script in fully automated mode, you **must run it once with the browser visible** to upload your ROS certificate manually.
-
-### ✅ Steps:
-
-1. Run the script with `--headless=false`:
-   ```bash
-   node index.js --headless=false
-   ```
-2. In the browser window that opens:
-   - Upload your ROS digital certificate if it's not already loaded.
-   - Select the appropriate certificate from the dropdown.
-   - If a password is provided (via `.env` or `--password`), it will be auto-filled.
-   - Manually click the **"Login to ROS"** button.
-
-3. After successful login, the certificate will remain loaded in the browser profile.
-
-Once this is done, you can run the script in headless mode from then on:
 ```bash
 node index.js
 ```
 
----
+### CLI Options:
 
-## 🚦 Usage
+- `--headless`: Run in headless mode (default: `true`)
+- `--cert`: Specify certificate name (overrides `.env`)
+- `--password`: Specify certificate password (overrides `.env`)
+- `--noemail`: Skip email and save data locally
+
+### 📌 First Time Setup
+
+> ℹ️ For the first time, you **must run with `--headless=false`** so that you can upload and select the ROS certificate manually, then click the **"Login to ROS"** button yourself.
 
 ```bash
-node index.js [--headless=false] [--cert=name] [--password=pass] [--noemail]
+node index.js --headless=false
 ```
 
-### Options
-- `--headless=false`: Run in visible mode (useful for uploading certificate)
-- `--cert`: Certificate name (overrides `.env`)
-- `--password`: Certificate password (overrides `.env`)
-- `--noemail`: Skip email, save data to local `inbox_data.json`
+Once logged in manually and certificate is accepted, future runs can be done headlessly.
 
----
+## 🔐 Setting Up Gmail App Password
 
-## 🗂️ Output
-- `inbox.png`: Screenshot of the inbox
-- `after-click.png`: Screenshot after login
-- `debug.html`: Optional HTML dump if scraping fails
-- `inbox_data.json`: Inbox data if `--noemail` is used
+If you're using Gmail to send the ROS inbox summaries via email, you’ll need to create an **App Password** instead of using your regular Gmail password. Here’s how to generate one:
 
----
+### 📌 Steps to generate Gmail App Password
 
-## 🧾 License
+1. **Enable 2-Step Verification** (if not already enabled):
+   - Go to your [Google Account Security page](https://myaccount.google.com/security).
+   - Under **"Signing in to Google"**, click **"2-Step Verification"** and follow the instructions to enable it.
 
-This project is licensed under the [MIT License](LICENSE).
+2. **Generate an App Password**:
+   - Once 2FA is enabled, return to the [Google Security page](https://myaccount.google.com/security).
+   - Click on **"App passwords"**.
+   - Sign in again if prompted.
+   - Under **Select app**, choose **"Mail"**.
+   - Under **Select device**, choose **"Other"** and give it a name like `"ROS Script"`.
+   - Click **Generate**.
 
----
+3. **Copy the 16-character password** shown and paste it into your `.env` file as the value for `EMAIL_PASS`.
 
-## 🤝 Contributing
-Pull requests are welcome. For major changes, please open an issue first.
+```env
+EMAIL_FROM=your_email@gmail.com
+EMAIL_PASS=your_generated_app_password
+```
 
----
+> ⚠️ **Keep this password secure**. Do not share or commit it to source control.
 
-## 🙌 Credits
-Built with ❤️ using [Playwright](https://playwright.dev/), [Node.js](https://nodejs.org/), and [Nodemailer](https://nodemailer.com/).
+## 📤 Committing & Pushing Changes
+
+```bash
+git add .
+git commit -m "Your message"
+git push origin main
+```
+
+## 🧹 .gitignore
+
+Ensure `.env`, screenshots, and debug files are excluded:
+
+```gitignore
+.env
+inbox.png
+after-click.png
+debug.html
+inbox_data.json
+node_modules/
+```
+
+## 📝 License
+
+MIT License. Feel free to fork and improve!
