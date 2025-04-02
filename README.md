@@ -16,7 +16,7 @@ This Playwright-based script logs into [ROS.ie](https://www.ros.ie), scrapes inb
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/ros-inbox-scraper.git
+   git clone https://github.com/pchambeth/ros-inbox-scraper.git
    cd ros-inbox-scraper
    ```
 
