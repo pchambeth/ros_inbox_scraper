@@ -1,4 +1,3 @@
-// README.md
 # ROS Inbox Scraper
 
 This Playwright-based script logs into [ROS.ie](https://www.ros.ie), scrapes inbox messages under the "Revenue Record" tab, and either sends them via email or saves them locally.
